@@ -1,0 +1,110 @@
+---
+name: story-shorts
+description: Turn a real-life story the user tells (voice-typed, English/Manglish/Malayalam) into a two-part Malayalam YouTube Shorts series for the FictionInAMinute channel - Malayalam scripts, Google AI Studio voice scripts and Style text, then animated 1080x1920 videos synced to the user's recorded voice with English captions, review fixes, and upload metadata. Use when the user runs /story-shorts, sends a new story for the channel, or asks to continue a story that is in progress.
+---
+
+# Story → 2-part YouTube Shorts
+
+You run a four-step pipeline with the user. **Every step ends at a gate: show the result, then stop and wait for the user.** Never run ahead to the next step on your own.
+
+```
+☐ 1. Story → Malayalam Part 1 & Part 2      (gate: user approves the text)
+☐ 2. Voice scripts + Style for AI Studio     (gate: user sends both audio files)
+☐ 3. Videos (YouTube Shorts only)            (gate: user reviews)
+☐ 4. Review → fixes → final + upload text    (gate: user says it's final)
+```
+
+## Progress file (do this first, every time)
+
+Each story lives in `stories/<slug>/` (slug: short lowercase, e.g. `unplanned-trip`).
+- On `/story-shorts` with no story text: list `stories/*/progress.md`. If one is unfinished, show its checklist and ask whether to continue it or start a new story.
+- New story: create `stories/<slug>/progress.md` from the template at the end of this file.
+- After each gate is passed, tick the step (`☑`), note the date and the key decisions (approved facts, file names, audio lengths), and save the approved texts in the story folder (`part1.ml.txt`, `part2.ml.txt`, `part1.aistudio.txt`, `part1.style.txt`, ...).
+- Show the checklist at the top of every reply, so the user always sees where they are.
+- If the repository is attached with push access, commit and push the story folder after every gate (never commit audio, frames or MP4s - `.gitignore` excludes them). If it can't be pushed, say so once.
+
+## Step 1 - Story → Malayalam Part 1 and Part 2
+
+1. Read the story. List the facts you rely on: people (use the names the user gives; the narrator is "ഞാൻ"), places, vehicles, amounts, year, the order of events, the big moments.
+2. Decide the split. Part 1 builds up to the most surprising turn and **stops right on it** (cliffhanger). Part 2 resolves it and ends on the funniest or warmest line. If the story honestly only fills one minute, say so and offer one video instead.
+3. Write both parts in **casual spoken Malayalam** (standard Malayalam unless the user asks for a dialect), in Malayalam script. English words people say anyway stay English but are written in Malayalam script (ക്ലാസ്, ടെൻഷൻ, സർവീസ് സെന്റർ). Short lines, one breath each. Dialogue: introduce the speaker, then put the line in quotes.
+4. Format each part like the user's approved scripts:
+   - First line is the title, read aloud: `<series title>... – പാർട്ട് 1` (Part 2: `– പാർട്ട് 2`).
+   - Part 1 ends: `ബാക്കി... പാർട്ട് 2-ൽ!` (or the user's preferred ending).
+   - Part 2 does **not** recap Part 1 and repeats nothing; it ends warm/nostalgic.
+   - No line or fact said twice. Keep both parts free of repeated words where a synonym works.
+5. Length: run `python3 tools/estimate.py` on each part. Target **55-62 s, hard maximum 66 s** each (calibrated: 783 spoken characters ≈ 61.7 s with the channel's voice). If too long, cut connectives and re-told facts first, never the punchline.
+6. Under the scripts, list every detail you **assumed or added** (an amount, who said what, a joke) and ask the user to confirm. Never present an invented fact as true.
+7. **Gate:** "Approve, or tell me what to change." Apply changes exactly as asked (the user's wording wins), re-estimate length, and repeat until approved.
+
+## Step 2 - Voice scripts and Style for Google AI Studio
+
+For each part give, in separate code blocks so they copy cleanly:
+
+- **Script**: the approved Malayalam text as plain lines with blank lines between them. Use `...` for short pauses and `[pause]` sparingly (before a twist or punchline). No timestamps, markdown, emoji or speaker labels.
+- **Style** (paste into AI Studio's Style box). Base it on this proven text and adapt the emotional beats to the part:
+
+```
+Narrate in Malayalam at a lively pace, slightly quicker than normal conversation, so the whole script finishes in about 60 seconds and never more than 65 seconds. Sound like a friend telling a real story. Keep clear Malayalam pronunciation, with every word fully spoken and nothing swallowed. Keep pauses at "..." short and [pause] to a brief beat, with no gaps between lines. <emotional beats for this part: e.g. start light, build tension at X, shocked at Y, deadpan at Z>. <Part 1: end with a curious, teasing cliffhanger. Part 2: end slow, warm and nostalgic.>
+```
+
+Remind the user: use the **same Speaker** for both parts and every story (channel voice). Give the estimated length again.
+**Gate:** wait for both audio files. When they arrive, check each with `ffprobe`; if a part runs over 66 s, tell the user and offer to re-generate or speed it up ≤8% with `atempo` (pitch-safe).
+
+## Step 3 - Videos (YouTube Shorts only)
+
+Work in `stories/<slug>/part1/` and `part2/`. Copy `engine/template.html` to `index.html` in each.
+
+**3a. Sync - never guess timings.** No speech recognition is available, so align by syllables:
+1. Write `phrases.txt`: the exact spoken script, one short phrase per line (split at `...`, `,`, `.`, `?`, `!`), numbers written as the words the voice says (`5000` → `അയ്യായിരം`, `പാർട്ട് 1` → `പാർട്ട് വൺ`).
+2. `python3 tools/align.py <audio.wav> phrases.txt > timeline.json` (convert MP3s to WAV with ffmpeg first). Read the printed table: the audio (`a`) and text (`t`) syllable counts should rise and fall together. If several phrases share one chunk, split the time by syllable share. If the counts disagree badly in one region, try the other script version the user may have recorded (they sometimes record an earlier draft) and keep the lower-cost fit.
+3. Every scene starts and every caption appears at its phrase's start time. Key visual beats (impact, reveal, shout) land on the exact phrase that names them.
+
+**3b. Scenes** - write `scenes.js` using the engine (`engine/engine.js`; its header lists everything available). Start from the closest example in `examples/` and reuse its pieces. Rules the user asked for:
+- Same cast across a series and across stories: the narrator `ME` (blue shirt) and friends `F1`–`F4`; recurring vehicles keep their look (`suv` = the user's blue Terrano, boxy SUV). Count people correctly (if five went on the trip, show five; in the car use `heads:5`).
+- **No on-screen text labels, no emoji.** Allowed text: the title card at the start, the end card ("ബാക്കി... പാർട്ട് 2" on Part 1), and the English captions. Drawn `?`/`!` symbols are fine sparingly.
+- **Never block a face**: draw vehicles and props before people when they overlap; check every preview.
+- Captions are English, one per phrase or sentence, shown near the top (engine CSS). Translate faithfully and naturally; keep Malayalam names and words like "Chetta" where they carry flavour.
+- Don't draw real people (actors, celebrities) or recreate film scenes; show the friends' own reaction instead.
+- New objects not in the engine: draw them in the same flat style (thick dark outlines, flat colours) and add reusable ones to `engine/engine.js`.
+
+**3c. Check before rendering.** `node tools/preview.js stories/<slug>/part1 <t1> <t2> ...` with one time per scene, then **look at `preview/sheet.png`** and at full-size frames for anything doubtful (overlaps, cut-off text, faces hidden, wrong count of people). Fix and re-preview.
+
+**3d. Render and encode.**
+```
+node tools/render.js stories/<slug>/part1 <audio duration>
+tools/encode.sh stories/<slug>/part1 <audio.wav> stories/<slug>/<Title>_Part1_Shorts.mp4
+```
+Only the YouTube Shorts format (1080×1920, 30 fps, H.264 + AAC, faststart). Send both MP4s to the user with SendUserFile (`display: "attach"`), with a short scene list and the main sync points (time → line).
+**Gate:** ask the user to watch and reply "OK" or list fixes with times.
+
+## Step 4 - Review, fixes, final, upload text
+
+- For each comment, find the scene by time, fix only that, re-preview that moment, re-render, re-encode, re-send. If the user says sync is off, re-run alignment rather than nudging blindly.
+- When the user approves, write for **each part**: title (**Malayalam**, catchy, ends `| <series> പാർട്ട് N`), description (English, hook + story teaser + "Part 1/2 link" placeholder + comment prompt + 5 hashtags), keywords (comma list for the Tags box), hashtags (5 for the description + extras), pinned comment (**Malayalam**, ends with a question that invites replies). Add the after-upload tips: link Part 1 ↔ Part 2 (description, pinned comment, Related video), put both in a playlist.
+- Tick step 4 and mark the story done.
+
+## Things that are not possible here (say so plainly)
+
+- Making the voice: the user records it in Google AI Studio.
+- Listening to audio: alignment is by syllable counting, so ask the user to report any moment that feels off.
+- Only YouTube Shorts files are produced unless the user asks for another format.
+
+## progress.md template
+
+```
+# <Series title> (<slug>)
+Started: <date>
+
+☐ 1. Story → Malayalam Part 1 & 2
+☐ 2. Voice scripts + Style
+☐ 3. Videos (YouTube Shorts)
+☐ 4. Review → final + upload text
+
+## Facts confirmed by the user
+- ...
+
+## Notes
+- Part 1 audio: <file>, <length>
+- Part 2 audio: <file>, <length>
+```

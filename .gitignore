@@ -1,0 +1,10 @@
+# big or generated files stay out of git; videos are sent in chat
+*.mp4
+*.wav
+*.mp3
+*.m4a
+frames/
+preview/
+node_modules/
+__pycache__/
+.DS_Store

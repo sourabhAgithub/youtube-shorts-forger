@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@600;800&family=Noto+Sans+Malayalam:wght@600;800&display=block" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#87c6ea}
+svg{position:absolute;left:0;top:0}
+.label{position:absolute;left:50%;top:230px;transform-origin:50% 50%;white-space:normal;width:max-content;max-width:900px;text-align:center;
+  font-family:'Baloo Chettan 2','Noto Sans Malayalam',sans-serif;font-weight:800;font-size:66px;line-height:1.15;
+  color:#1a1a1a;background:#ffd43b;padding:14px 38px 6px;border-radius:28px;border:6px solid #1a1a1a;
+  box-shadow:0 12px 0 #1a1a1a}
+.sub{position:absolute;left:50px;right:50px;top:300px;text-align:center;
+  font-family:'Baloo Chettan 2','Noto Sans Malayalam',sans-serif;font-weight:800;font-size:50px;line-height:1.4;color:#fff;
+  text-shadow:0 3px 0 #000,0 0 10px rgba(0,0,0,.8)}
+.sub span{background:rgba(0,0,0,.55);padding:8px 22px;border-radius:18px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.bubble{position:absolute;transform-origin:50% 100%;font-family:'Baloo Chettan 2','Noto Sans Malayalam',sans-serif;
+  font-weight:800;font-size:62px;line-height:1.2;color:#1a1a1a;background:#fff;border:6px solid #1a1a1a;
+  border-radius:44px;padding:22px 40px 12px;max-width:760px;text-align:center}
+.bubble:after{content:'';position:absolute;bottom:-44px;width:0;height:0;border:24px solid transparent;border-top:26px solid #1a1a1a}
+.bubble.l:after{left:90px}.bubble.r:after{right:90px}
+.big{position:absolute;left:0;right:0;text-align:center;font-family:'Baloo Chettan 2','Noto Sans Malayalam',sans-serif;font-weight:800}
+.vig{position:absolute;inset:0;pointer-events:none}
+</style></head>
+<body><div style="position:absolute;left:-9999px;font-family:'Baloo Chettan 2';font-weight:800">HA SURESH abc ഹ</div><div id="stage"></div>
+<script src="../../../engine/engine.js"></script>
+<script src="scenes.js"></script>
+<script>render(0);</script>
+</body></html>
