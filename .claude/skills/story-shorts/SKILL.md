@@ -1,6 +1,6 @@
 ---
 name: story-shorts
-description: Turn a real-life story the user tells (voice-typed, any language) into a two-part YouTube Shorts series for the FictionInAMinute channel - scripts in the chosen voice language (Malayalam by default), Google AI Studio voice scripts and Style text, animated 1080x1920 videos synced to the user's recorded voice with English captions, review fixes, and upload text (title, description, keywords, hashtags, pinned comment) in the voice language. Use when the user runs /story-shorts, sends a new story for the channel, or asks to continue a story that is in progress.
+description: Turn a real-life story the user tells (voice-typed, any language) into a two-part YouTube Shorts series for the FictionInAMinute channel - scripts in the chosen voice language (Malayalam by default), Google AI Studio voice scripts and Style text, animated 1080x1920 videos synced to the user's recorded voice with English captions, review fixes, and upload text (title and pinned comment in the voice language; description, keywords and hashtags in English). Use when the user runs /story-shorts, sends a new story for the channel, or asks to continue a story that is in progress.
 ---
 
 # Story → 2-part YouTube Shorts
@@ -12,7 +12,7 @@ You run a five-step pipeline with the user. **Every step ends at a gate: show th
 ☐ 2. Voice scripts + Style for AI Studio     (gate: user sends both audio files)
 ☐ 3. Videos (YouTube Shorts only)            (gate: user reviews)
 ☐ 4. Review → fixes → final videos           (gate: user says the videos are final)
-☐ 5. Upload text in the voice language       (gate: user approves the text)
+☐ 5. Upload text                             (gate: user approves the text)
 ```
 
 **Voice language.** Ask in step 1 which language the voice will be in, unless the story or the user already makes it clear; default **Malayalam**. Write the scripts, the AI Studio scripts, and the step 5 title and pinned comment in that language (in its own script). The step 5 description, keywords and hashtags are always English. English captions stay English in every case.
