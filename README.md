@@ -1,7 +1,7 @@
 # YouTube Shorts Forger
 
 A Claude Code skill for the **FictionInAMinute** channel: tell a real story, get a two-part
-Malayalam YouTube Shorts series with animated scenes synced to your own AI Studio voice.
+YouTube Shorts series (Malayalam by default, or any voice language you choose) with animated scenes synced to your own AI Studio voice.
 
 Runs inside Claude Code, so it uses your Claude subscription. No API keys, no paid services.
 
@@ -16,7 +16,8 @@ Runs inside Claude Code, so it uses your Claude subscription. No API keys, no pa
 | 1. Story → Part 1 & 2 | Send the story, approve or correct | Writes both parts in casual Malayalam, ~1 min each, lists assumptions |
 | 2. Voice scripts | Generate the audio in Google AI Studio, send both files | Gives paste-ready scripts and the Style text for each part |
 | 3. Videos | Watch them | Syncs scenes and English captions to your voice, renders 1080×1920 Shorts |
-| 4. Review | Reply "OK" or list fixes with times | Fixes, re-renders, then writes titles, descriptions, tags, hashtags, pinned comments |
+| 4. Review | Reply "OK" or list fixes with times | Fixes and re-renders until the videos are final |
+| 5. Upload text | Approve or tweak | Title, description, keywords, hashtags and pinned comment for each part, in the voice language |
 
 Progress is saved in `stories/<story>/progress.md`, so a new session continues where you stopped.
 

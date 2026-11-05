@@ -1,18 +1,21 @@
 ---
 name: story-shorts
-description: Turn a real-life story the user tells (voice-typed, English/Manglish/Malayalam) into a two-part Malayalam YouTube Shorts series for the FictionInAMinute channel - Malayalam scripts, Google AI Studio voice scripts and Style text, then animated 1080x1920 videos synced to the user's recorded voice with English captions, review fixes, and upload metadata. Use when the user runs /story-shorts, sends a new story for the channel, or asks to continue a story that is in progress.
+description: Turn a real-life story the user tells (voice-typed, any language) into a two-part YouTube Shorts series for the FictionInAMinute channel - scripts in the chosen voice language (Malayalam by default), Google AI Studio voice scripts and Style text, animated 1080x1920 videos synced to the user's recorded voice with English captions, review fixes, and upload text (title, description, keywords, hashtags, pinned comment) in the voice language. Use when the user runs /story-shorts, sends a new story for the channel, or asks to continue a story that is in progress.
 ---
 
 # Story → 2-part YouTube Shorts
 
-You run a four-step pipeline with the user. **Every step ends at a gate: show the result, then stop and wait for the user.** Never run ahead to the next step on your own.
+You run a five-step pipeline with the user. **Every step ends at a gate: show the result, then stop and wait for the user.** Never run ahead to the next step on your own.
 
 ```
 ☐ 1. Story → Malayalam Part 1 & Part 2      (gate: user approves the text)
 ☐ 2. Voice scripts + Style for AI Studio     (gate: user sends both audio files)
 ☐ 3. Videos (YouTube Shorts only)            (gate: user reviews)
-☐ 4. Review → fixes → final + upload text    (gate: user says it's final)
+☐ 4. Review → fixes → final videos           (gate: user says the videos are final)
+☐ 5. Upload text in the voice language       (gate: user approves the text)
 ```
+
+**Voice language.** Ask in step 1 which language the voice will be in, unless the story or the user already makes it clear; default **Malayalam**. Write the scripts, the AI Studio scripts and the step 5 upload text in that language (in its own script). English captions stay English in every case.
 
 ## Progress file (do this first, every time)
 
@@ -23,17 +26,17 @@ Each story lives in `stories/<slug>/` (slug: short lowercase, e.g. `unplanned-tr
 - Show the checklist at the top of every reply, so the user always sees where they are.
 - If the repository is attached with push access, commit and push the story folder after every gate (never commit audio, frames or MP4s - `.gitignore` excludes them). If it can't be pushed, say so once.
 
-## Step 1 - Story → Malayalam Part 1 and Part 2
+## Step 1 - Story → Part 1 and Part 2 in the voice language
 
 1. Read the story. List the facts you rely on: people (use the names the user gives; the narrator is "ഞാൻ"), places, vehicles, amounts, year, the order of events, the big moments.
 2. Decide the split. Part 1 builds up to the most surprising turn and **stops right on it** (cliffhanger). Part 2 resolves it and ends on the funniest or warmest line. If the story honestly only fills one minute, say so and offer one video instead.
-3. Write both parts in **casual spoken Malayalam** (standard Malayalam unless the user asks for a dialect), in Malayalam script. English words people say anyway stay English but are written in Malayalam script (ക്ലാസ്, ടെൻഷൻ, സർവീസ് സെന്റർ). Short lines, one breath each. Dialogue: introduce the speaker, then put the line in quotes.
+3. Write both parts in the **casual spoken voice language** (for Malayalam: standard Malayalam unless the user asks for a dialect, in Malayalam script).  The rules below are written for Malayalam; apply the same idea in other languages. English words people say anyway stay English but are written in Malayalam script (ക്ലാസ്, ടെൻഷൻ, സർവീസ് സെന്റർ). Short lines, one breath each. Dialogue: introduce the speaker, then put the line in quotes.
 4. Format each part like the user's approved scripts:
    - First line is the title, read aloud: `<series title>... – പാർട്ട് 1` (Part 2: `– പാർട്ട് 2`).
    - Part 1 ends: `ബാക്കി... പാർട്ട് 2-ൽ!` (or the user's preferred ending).
    - Part 2 does **not** recap Part 1 and repeats nothing; it ends warm/nostalgic.
    - No line or fact said twice. Keep both parts free of repeated words where a synonym works.
-5. Length: run `python3 tools/estimate.py` on each part. Target **55-62 s, hard maximum 66 s** each (calibrated: 783 spoken characters ≈ 61.7 s with the channel's voice). If too long, cut connectives and re-told facts first, never the punchline.
+5. Length: run `python3 tools/estimate.py` on each part. Target **55-62 s, hard maximum 66 s** each (calibrated on Malayalam: 783 spoken characters ≈ 61.7 s with the channel's voice; for another language, treat the estimate as rough and re-calibrate from the first recording, noting the new chars-per-second in progress.md). If too long, cut connectives and re-told facts first, never the punchline.
 6. Under the scripts, list every detail you **assumed or added** (an amount, who said what, a joke) and ask the user to confirm. Never present an invented fact as true.
 7. **Gate:** "Approve, or tell me what to change." Apply changes exactly as asked (the user's wording wins), re-estimate length, and repeat until approved.
 
@@ -78,11 +81,21 @@ tools/encode.sh stories/<slug>/part1 <audio.wav> stories/<slug>/<Title>_Part1_Sh
 Only the YouTube Shorts format (1080×1920, 30 fps, H.264 + AAC, faststart). Send both MP4s to the user with SendUserFile (`display: "attach"`), with a short scene list and the main sync points (time → line).
 **Gate:** ask the user to watch and reply "OK" or list fixes with times.
 
-## Step 4 - Review, fixes, final, upload text
+## Step 4 - Review, fixes, final videos
 
 - For each comment, find the scene by time, fix only that, re-preview that moment, re-render, re-encode, re-send. If the user says sync is off, re-run alignment rather than nudging blindly.
-- When the user approves, write for **each part**: title (**Malayalam**, catchy, ends `| <series> പാർട്ട് N`), description (English, hook + story teaser + "Part 1/2 link" placeholder + comment prompt + 5 hashtags), keywords (comma list for the Tags box), hashtags (5 for the description + extras), pinned comment (**Malayalam**, ends with a question that invites replies). Add the after-upload tips: link Part 1 ↔ Part 2 (description, pinned comment, Related video), put both in a playlist.
-- Tick step 4 and mark the story done.
+- When the user says the videos are final, tick step 4 and move to step 5.
+
+## Step 5 - Upload text (in the voice language)
+
+For **each part**, in the voice language chosen in step 1 (its own script, natural for that audience), each in its own code block:
+- **Title**: catchy, hints at the twist without giving it away, under ~70 characters, ends with `| <series title> <part word> N` (Malayalam: `പാർട്ട് N`). Offer 2-3 alternatives and say which you pick and why.
+- **Description**: in the voice language: hook, short teaser of the story, "Watch Part 1 / Part 2" link placeholder, a question inviting comments, then the 5 main hashtags. Add one short English line at the end (the captions are English, so English-speaking viewers can find it).
+- **Keywords** (Tags box): comma-separated, mixing voice-language words and English search terms.
+- **Hashtags**: 5 to use in the description (first 3 show above the title) plus extras, in the voice language and English.
+- **Pinned comment**: in the voice language, ends with a question that invites replies; Part 1's teases Part 2, Part 2's links back to Part 1.
+Show an English meaning under each non-English title and pinned comment. Add the after-upload tips: link Part 1 ↔ Part 2 (description, pinned comment, Related video), put both parts in one playlist.
+**Gate:** apply any changes the user asks for; when they approve, tick step 5 and mark the story done.
 
 ## Things that are not possible here (say so plainly)
 
@@ -99,7 +112,10 @@ Started: <date>
 ☐ 1. Story → Malayalam Part 1 & 2
 ☐ 2. Voice scripts + Style
 ☐ 3. Videos (YouTube Shorts)
-☐ 4. Review → final + upload text
+☐ 4. Review → final videos
+☐ 5. Upload text (title, description, keywords, hashtags, pinned comment)
+
+Voice language: <Malayalam>
 
 ## Facts confirmed by the user
 - ...

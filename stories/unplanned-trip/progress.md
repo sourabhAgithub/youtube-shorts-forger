@@ -4,7 +4,10 @@ Started: 2026-11-05
 ☑ 1. Story → Malayalam Part 1 & 2
 ☑ 2. Voice scripts + Style
 ☑ 3. Videos (YouTube Shorts)
-☑ 4. Review → final + upload text
+☑ 4. Review → final videos
+☑ 5. Upload text (title, description, keywords, hashtags, pinned comment)
+
+Voice language: Malayalam
 
 ## Facts confirmed by the user
 - First year of college; five friends; the narrator drove his Nissan Terrano (SUV).
