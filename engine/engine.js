@@ -9,6 +9,10 @@
    - Places: sky() cloud() palm() college() dam() workshop() parkingBg() hillDay() night() dayRoad()
              slopeBg() curveSign() burst() ground()
    - Props: key() note() coin() phoneG() stars() spark()
+   - Carnival night: cast GUNDA GOON1-3 COP SI UNCLE MOM LOCALS[]; person opts fat(c) mundu(c) cap(c) cig bleed plaster tears
+             activaRiders() sedan({door,heads,brake}) headBeam() ferrisWheel() tent() carnivalBg() nightRoad() clock()
+             policeStation() stationInside() desk() register() firstAid() cellBars() fileStack() smoke() impact()
+             grawlix() thought() speed()
    - Story files call add(start,end,(lt,d)=>({svg,html})) and define SUBS=[[t,"caption"],...]
    =================================================================== */
 
@@ -56,17 +60,19 @@ function face(e){
 }
 // x,y = feet centre. la/ra arm angles (deg). 0 = hanging down. ra negative raises to the right, la positive raises to the left.
 function person(c,o){
-  const {x,y,s=1,expr='normal',la=8,ra=-8,flip=false,walk=null,headRot=0,bob=0,thumb=false,sweat=0}=o;
+  const {x,y,s=1,expr='normal',la=8,ra=-8,flip=false,walk=null,headRot=0,bob=0,thumb=false,sweat=0,bleed=0,plaster=false,tears=-1}=o;
+  const fw=c.fat||1,cig=o.cig??c.cig;
   const legA=walk===null?0:Math.sin(walk)*22;
   const arm=(sx,a,front)=>`<g transform="translate(${sx},-318) rotate(${a})"><rect x="-17" y="-6" width="34" height="150" rx="17" fill="${c.shirt}" stroke="rgba(0,0,0,.18)" stroke-width="3"/><rect x="-14" y="80" width="28" height="64" rx="14" fill="${c.skin}"/><circle cx="0" cy="150" r="19" fill="${c.skin}"/>${(front&&thumb)?`<rect x="-8" y="118" width="16" height="34" rx="8" fill="${c.skin}" transform="rotate(180 0 150)"/>`:''}</g>`;
   return `<g transform="translate(${x},${y+bob}) scale(${flip?-s:s},${s})">
-   <g transform="translate(-22,-175) rotate(${legA})"><rect x="-19" y="0" width="38" height="170" rx="16" fill="${c.pants}"/><ellipse cx="-4" cy="170" rx="30" ry="13" fill="#222"/></g>
-   <g transform="translate(22,-175) rotate(${-legA})"><rect x="-19" y="0" width="38" height="170" rx="16" fill="${c.pants}"/><ellipse cx="6" cy="170" rx="30" ry="13" fill="#222"/></g>
-   ${arm(-54,la,false)}
-   <rect x="-68" y="-340" width="136" height="${c.kurta?260:190}" rx="42" fill="${c.shirt}"/>
+   <g transform="translate(${-22*fw},-175) rotate(${legA})"><rect x="-19" y="0" width="38" height="170" rx="16" fill="${c.pants}"/><ellipse cx="-4" cy="170" rx="30" ry="13" fill="#222"/></g>
+   <g transform="translate(${22*fw},-175) rotate(${-legA})"><rect x="-19" y="0" width="38" height="170" rx="16" fill="${c.pants}"/><ellipse cx="6" cy="170" rx="30" ry="13" fill="#222"/></g>
+   ${c.mundu?`<path d="M${-62*fw},-190 L${62*fw},-190 L${70*fw},-22 L${-70*fw},-22Z" fill="${c.mundu}" stroke="rgba(0,0,0,.2)" stroke-width="4"/><rect x="${-70*fw}" y="-40" width="${140*fw}" height="12" fill="#d4a72c"/><path d="M${10*fw},-190 L${24*fw},-30" stroke="rgba(0,0,0,.15)" stroke-width="4"/>`:''}
+   ${arm(-54*fw,la,false)}
+   <rect x="${-68*fw}" y="-340" width="${136*fw}" height="${c.kurta?260:190}" rx="42" fill="${c.shirt}"/>
    <path d="M-22,-340 L0,-306 L22,-340Z" fill="${c.skin}"/>
-   ${c.kurta?"":`<rect x="-70" y="-180" width="140" height="22" rx="8" fill="${c.pants}"/>`}
-   ${arm(54,ra,true)}
+   ${c.kurta?"":`<rect x="${-70*fw}" y="-180" width="${140*fw}" height="22" rx="8" fill="${c.mundu?"#5d4037":c.pants}"/>`}
+   ${arm(54*fw,ra,true)}
    <rect x="-17" y="-372" width="34" height="38" fill="${c.skin}"/>
    <g transform="translate(0,-430) rotate(${headRot})">
      ${c.style==="long"?`<path d="M-74,-10 C-84,-96 84,-96 74,-10 L82,120 Q0,140 -82,120Z" fill="${c.hair}"/>`:""}<ellipse cx="-64" cy="2" rx="12" ry="18" fill="${c.skin}"/><ellipse cx="64" cy="2" rx="12" ry="18" fill="${c.skin}"/>
@@ -75,6 +81,11 @@ function person(c,o){
      ${c.mustache?'<path d="M-30,20 Q-14,8 0,16 Q14,8 30,20 Q14,28 0,22 Q-14,28 -30,20Z" fill="#555"/>':''}
      <circle cx="-38" cy="18" r="10" fill="#e07a5f" opacity=".25"/><circle cx="38" cy="18" r="10" fill="#e07a5f" opacity=".25"/>
      ${face(expr)}
+     ${c.cap?`<path d="M-68,-48 C-72,-118 72,-118 68,-48Z" fill="${c.cap}" stroke="#1a1a1a" stroke-width="4"/><rect x="-72" y="-56" width="144" height="18" rx="6" fill="#3e3420"/><path d="M20,-42 L100,-38 Q86,-24 20,-30Z" fill="#1a1a1a"/><circle cx="0" cy="-80" r="12" fill="#ffd54f" stroke="#8d6e00" stroke-width="3"/>`:''}
+     ${bleed>0?`<path d="M16,32 C12,${44+bleed*16} 16,${54+bleed*20} 22,${54+bleed*20} C28,${54+bleed*20} 30,${44+bleed*16} 16,32Z" fill="#d32f2f" stroke="#7f0000" stroke-width="2"/>`:''}
+     ${plaster?`<rect x="6" y="20" width="38" height="18" rx="5" fill="#f2d0a9" stroke="#a1887f" stroke-width="3" transform="rotate(-18 25 29)"/>`:''}
+     ${tears>=0?[-23,23].map(ex=>`<path d="M${ex-6},6 L${ex-10},${30+((tears*120)%60)} L${ex+4},${30+((tears*120)%60)} L${ex+6},6Z" fill="#7fd3ff" opacity=".9"/><circle cx="${ex-4}" cy="${40+((tears*120+20)%70)}" r="7" fill="#7fd3ff"/>`).join(''):''}
+     ${cig?`<g transform="translate(14,34) rotate(12)"><rect x="0" y="-6" width="62" height="12" rx="3" fill="#fafafa" stroke="#555" stroke-width="2"/><rect x="0" y="-6" width="16" height="12" fill="#e0a060"/><rect x="56" y="-6" width="8" height="12" fill="#ff5722"/></g>`:''}
      ${sweat>0?`<path d="M74,-40 C64,-20 70,-6 80,-6 C90,-6 94,-20 74,-40Z" fill="#7fd3ff" stroke="#2b8fc7" stroke-width="3" opacity="${sweat}"/>`:''}
    </g></g>`;
 }
@@ -251,6 +262,74 @@ const night=(lt=0)=>`<defs><linearGradient id="ng" x1="0" y1="0" x2="0" y2="1"><
  [...Array(6)].map((_,i)=>palm(80+i*190,1220,.6,0).replace(/#2e8b3e/g,'#0e0a24').replace(/#8d6e4a/g,'#0e0a24').replace(/#6b4f2a/g,'#0e0a24')).join('')+
  `<rect x="0" y="1300" width="${W}" height="620" fill="#3a3550"/><rect x="0" y="1520" width="${W}" height="10" fill="#fff" opacity=".35"/>`;
 const dayRoad=()=>sky()+cloud(120,260,1)+cloud(700,380,.8)+`<path d="M0,1150 C300,1000 760,980 1080,1120 L1080,1920 L0,1920Z" fill="#6cbf57"/>`+palm(90,1250,1,0)+palm(990,1230,.9,0)+`<rect x="0" y="1350" width="${W}" height="250" fill="#8d8a80"/><rect x="0" y="1468" width="${W}" height="10" fill="#fff" opacity=".7"/>`;
+
+
+// ---------- Carnival night pieces (gunda, police, carnival, sedan) ----------
+const ACTIVA={color:'#f1f3f4',trim:'#90a4ae'};               // the narrator's white Activa
+const GUNDA={shirt:'#3e2723',pants:'#212121',skin:'#8d5a3b',hair:'#111',style:'short',mustache:true,fat:1.45,cig:true};
+const GOON1={shirt:'#b71c1c',pants:'#263238',skin:'#a1694a',hair:'#111',style:'spiky'};
+const GOON2={shirt:'#37474f',pants:'#1b1b1b',skin:'#9c6644',hair:'#151515',style:'short'};
+const GOON3={shirt:'#fafafa',pants:'#fafafa',skin:'#a96c43',hair:'#151515',style:'side',mundu:'#f7f3e8',mustache:true};
+const COP={shirt:'#b89b5e',pants:'#a88b50',skin:'#a5693f',hair:'#151515',style:'short',mustache:true,cap:'#8a7442'};
+const SI={shirt:'#c2a46b',pants:'#ab8f55',skin:'#b07448',hair:'#151515',style:'short',mustache:true,cap:'#6d5a2e',fat:1.15};
+const UNCLE={shirt:'#e3f2fd',pants:'#37474f',skin:'#a9714b',hair:'#bdbdbd',style:'side',mustache:true};
+const MOM={shirt:'#7b1fa2',pants:'#ce93d8',skin:'#b5784c',hair:'#111',style:'long',kurta:true};
+const LOCALS=[{shirt:'#5d4037',pants:'#efebe9',skin:'#9c6644',hair:'#9e9e9e',style:'bald',mustache:true,mundu:'#efebe9'},
+ {shirt:'#00695c',pants:'#263238',skin:'#b5784c',hair:'#151515',style:'short'},
+ {shirt:'#f9a825',pants:'#3e2723',skin:'#a96c43',hair:'#111',style:'spiky'},
+ {shirt:'#455a64',pants:'#f5f5f5',skin:'#bf8456',hair:'#151515',style:'side',mundu:'#f5f5f5'}];
+// two friends on the Activa, facing right: F1 drives, ME behind
+function activaRiders(o){const {x,y,s=1,rot=0,tilt=0,me='normal',f1='normal',mera=-20,f1ra=-75,meFlip=false,meBleed=0}=o;
+ return `<g transform="translate(${x},${y}) rotate(${tilt}) scale(${s})">${person(ME,{x:-120,y:-60,s:.62,expr:me,ra:mera,la:10,flip:meFlip,bleed:meBleed})}${person(F1,{x:-10,y:-60,s:.62,expr:f1,ra:f1ra,la:-60})}${scooter({x:0,y:0,s:1,color:ACTIVA.color,trim:ACTIVA.trim,rot})}</g>`;}
+// low four-door car, facing right. door: 0 shut .. 1 open (front door). heads: silhouettes inside
+function sedan(o){const {x,y,s=1,color='#4a1515',rot=0,tilt=0,door=0,heads=0,brake=false}=o;
+ const hd=[[60,'#8d5a3b'],[-80,'#a1694a'],[-150,'#9c6644'],[-20,'#a96c43']].slice(0,heads).map(([hx,c])=>`<g transform="translate(${hx},-196)"><circle r="26" fill="${c}"/><path d="M-27,-2 C-30,-32 30,-32 27,-2 C20,-14 -20,-14 -27,-2Z" fill="#111"/></g>`).join('');
+ return `<g transform="translate(${x},${y}) rotate(${tilt}) scale(${s})">
+ <ellipse cx="0" cy="4" rx="320" ry="18" fill="rgba(0,0,0,.25)"/>
+ <path d="M-300,-70 L-300,-140 Q-298,-160 -270,-164 L-170,-172 L-110,-248 Q-100,-258 -84,-258 L70,-258 Q88,-258 100,-246 L170,-172 L268,-160 Q300,-154 304,-126 L306,-70 Q306,-56 290,-56 L-286,-56 Q-300,-56 -300,-70Z" fill="${color}" stroke="#1a1a1a" stroke-width="7" stroke-linejoin="round"/>
+ <path d="M-156,-172 L-104,-240 L-14,-240 L-14,-172Z M2,-240 L84,-240 L146,-172 L2,-172Z" fill="#1d2b3a" stroke="#1a1a1a" stroke-width="4"/>
+ <clipPath id="sdw"><path d="M-156,-172 L-104,-240 L-14,-240 L-14,-172Z M2,-240 L84,-240 L146,-172 L2,-172Z"/></clipPath><g clip-path="url(#sdw)">${hd}</g>
+ <path d="M-120,-228 L-108,-236 M14,-228 L40,-228" stroke="#fff" stroke-width="6" opacity=".3" stroke-linecap="round"/>
+ <line x1="-6" y1="-172" x2="-6" y2="-70" stroke="#1a1a1a" stroke-width="4"/><rect x="-70" y="-150" width="30" height="8" rx="4" fill="#1a1a1a"/><rect x="60" y="-150" width="30" height="8" rx="4" fill="#1a1a1a"/>
+ ${door>0?`<path d="M-2,-172 L146,-172 L150,-72 L-2,-72Z" fill="#111"/><path d="M146,-172 L${146+door*70},${-182-door*6} L${150+door*70},${-62+door*6} L150,-72Z" fill="${color}" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>`:''}
+ <rect x="-300" y="-110" width="606" height="16" fill="rgba(0,0,0,.25)"/>
+ <path d="M282,-150 Q300,-148 302,-132 L276,-130Z" fill="#fff6b0" stroke="#1a1a1a" stroke-width="4"/>
+ <rect x="-300" y="-150" width="16" height="26" rx="4" fill="${brake?'#ff1744':'#c62828'}" stroke="#1a1a1a" stroke-width="3"/>${brake?`<circle cx="-300" cy="-137" r="40" fill="#ff1744" opacity=".35"/>`:''}
+ <path d="M-250,-56 A72,72 0 0 1 -106,-56Z M110,-56 A72,72 0 0 1 254,-56Z" fill="#1a1a1a"/>
+ ${wheel(-178,-52,56,rot)}${wheel(182,-52,56,rot)}
+ </g>`;}
+function headBeam(x,y,len=700,op=.22){return `<path d="M${x},${y-10} L${x+len},${y-120} L${x+len},${y+90} L${x},${y+14}Z" fill="#fff59d" opacity="${op}"/>`}
+function ferrisWheel(x,y,s,lt){const n=10;let g='';for(let i=0;i<n;i++){const a=i*2*Math.PI/n+lt*.25;const px=Math.cos(a)*300,py=Math.sin(a)*300;
+  g+=`<line x1="0" y1="0" x2="${px}" y2="${py}" stroke="#ffcc80" stroke-width="6"/><g transform="translate(${px},${py})"><path d="M-30,0 L30,0 L24,46 L-24,46Z" fill="${['#e53935','#ffd43b','#43a047','#1e88e5','#8e24aa'][i%5]}" stroke="#1a1a1a" stroke-width="4"/></g>`;}
+ const bulbs=[...Array(24)].map((_,i)=>{const a=i*Math.PI/12+lt*.25;return `<circle cx="${Math.cos(a)*300}" cy="${Math.sin(a)*300}" r="9" fill="#fff59d" opacity="${.5+.5*Math.sin(lt*6+i)}"/>`}).join('');
+ return `<g transform="translate(${x},${y}) scale(${s})"><path d="M-40,0 L-200,520 M40,0 L200,520" stroke="#90a4ae" stroke-width="22"/><circle r="300" fill="none" stroke="#ffb74d" stroke-width="14"/>${g}${bulbs}<circle r="34" fill="#ffb74d" stroke="#1a1a1a" stroke-width="6"/></g>`;}
+function tent(x,y,s,c1='#e53935',c2='#fff'){return `<g transform="translate(${x},${y}) scale(${s})">${[...Array(6)].map((_,i)=>`<path d="M0,-300 L${-240+i*80},0 L${-160+i*80},0Z" fill="${i%2?c2:c1}" stroke="#1a1a1a" stroke-width="4"/>`).join('')}<rect x="-240" y="0" width="480" height="40" fill="${c1}" stroke="#1a1a1a" stroke-width="4"/><rect x="-6" y="-340" width="12" height="44" fill="#1a1a1a"/><path d="M6,-340 L60,-326 L6,-312Z" fill="#ffd43b"/></g>`}
+const bulbString=(y,lt,amp=40)=>[...Array(14)].map((_,i)=>{const x=i*80+20;return `<circle cx="${x}" cy="${y+Math.sin(i/13*Math.PI)*amp}" r="11" fill="${['#ffd43b','#ff5252','#69f0ae','#40c4ff'][i%4]}" opacity="${.55+.45*Math.sin(lt*5+i*1.3)}"/>`}).join('')+`<path d="M20,${y} Q540,${y+amp*2} 1060,${y}" stroke="#333" stroke-width="3" fill="none"/>`;
+function carnivalBg(lt){return `<defs><linearGradient id="cng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140d3a"/><stop offset="1" stop-color="#4a1e6e"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#cng)"/>`+
+ [...Array(20)].map((_,i)=>`<circle cx="${(i*197)%1080}" cy="${50+(i*131)%520}" r="${2+(i%3)}" fill="#fff" opacity="${.4+.5*Math.abs(Math.sin(lt*2+i))}"/>`).join('')+
+ ferrisWheel(760,820,1,lt)+tent(250,1300,1.1)+tent(880,1340,.8,'#1e88e5','#ffd43b')+`<rect x="0" y="1340" width="${W}" height="580" fill="#2b2140"/>`+bulbString(560,lt)+bulbString(1100,lt+1,30);}
+const nightRoad=(lt,off=0)=>night(lt)+[...Array(4)].map((_,i)=>`<g transform="translate(${((i*360-off)%1440+1440)%1440-180},1300)"><rect x="-6" y="-360" width="12" height="360" fill="#263238"/><path d="M0,-360 L60,-360" stroke="#263238" stroke-width="12"/><circle cx="60" cy="-350" r="16" fill="#fff59d"/><path d="M60,-350 L-10,0 L130,0Z" fill="#fff59d" opacity=".08"/></g>`).join('')+`<rect x="0" y="1520" width="${W}" height="10" fill="#fff" opacity=".35" stroke-dasharray="60 60"/>`;
+function clock(x,y,s,h=12.5,lt=0){const ma=(h%1)*360,ha=(h%12)*30;return `<g transform="translate(${x},${y}) scale(${s})"><circle r="150" fill="#fffde7" stroke="#1a1a1a" stroke-width="14"/>${[...Array(12)].map((_,i)=>`<rect x="-5" y="-136" width="10" height="${i%3?18:30}" fill="#1a1a1a" transform="rotate(${i*30})"/>`).join('')}<rect x="-8" y="-80" width="16" height="86" rx="8" fill="#1a1a1a" transform="rotate(${ha})"/><rect x="-5" y="-120" width="10" height="126" rx="5" fill="#e53935" transform="rotate(${ma})"/><circle r="14" fill="#1a1a1a"/></g>`}
+function policeStation(x,y,s,lt=0){const bl=Math.floor(lt*4)%2;return `<g transform="translate(${x},${y}) scale(${s})">
+ <rect x="-320" y="-360" width="640" height="360" fill="#fff3e0" stroke="#8d6e63" stroke-width="6"/><rect x="-340" y="-400" width="680" height="50" fill="#c62828" stroke="#1a1a1a" stroke-width="5"/>
+ <rect x="-340" y="-350" width="680" height="16" fill="#1565c0"/>
+ ${[-250,-150,150,250].map(cx=>`<rect x="${cx-34}" y="-290" width="68" height="90" fill="#5d8aa8" stroke="#6d4c41" stroke-width="5"/>`).join('')}
+ <rect x="-70" y="-230" width="140" height="230" fill="#1565c0" stroke="#0d47a1" stroke-width="6"/><circle cx="40" cy="-110" r="8" fill="#ffd43b"/>
+ <rect x="-8" y="-470" width="16" height="72" fill="#455a64"/><rect x="-44" y="-500" width="40" height="32" rx="8" fill="${bl?'#ff1744':'#b71c1c'}"/><rect x="4" y="-500" width="40" height="32" rx="8" fill="${bl?'#0d47a1':'#2979ff'}"/>
+ ${bl?`<circle cx="-24" cy="-484" r="50" fill="#ff1744" opacity=".25"/>`:`<circle cx="24" cy="-484" r="50" fill="#2979ff" opacity=".25"/>`}</g>`}
+const stationInside=()=>`<rect width="${W}" height="${H}" fill="#f3e5c0"/><rect x="0" y="0" width="${W}" height="120" fill="#e0cfa0"/><rect x="0" y="1330" width="${W}" height="590" fill="#a1887f"/><rect x="0" y="1320" width="${W}" height="20" fill="#6d4c41"/>`+
+ `<rect x="120" y="420" width="260" height="190" fill="#5d8aa8" stroke="#6d4c41" stroke-width="10"/><line x1="250" y1="420" x2="250" y2="610" stroke="#6d4c41" stroke-width="8"/>`+
+ `<g transform="translate(820,500)"><rect x="-90" y="-110" width="180" height="220" rx="10" fill="#fff" stroke="#8d6e63" stroke-width="8"/><circle cy="-10" r="56" fill="#c62828"/><circle cy="-10" r="36" fill="#ffd43b"/></g>`;
+function desk(x,y,s){return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-260" y="-30" width="520" height="40" rx="6" fill="#795548" stroke="#3e2723" stroke-width="6"/><rect x="-240" y="10" width="40" height="230" fill="#5d4037"/><rect x="200" y="10" width="40" height="230" fill="#5d4037"/><rect x="-200" y="10" width="400" height="150" fill="#6d4c41"/></g>`}
+function register(x,y,s,lt,write=true){const p=write?(lt*1.6)%1:0;return `<g transform="translate(${x},${y}) scale(${s})"><path d="M-170,-10 L0,-30 L170,-10 L170,10 L0,-8 L-170,10Z" fill="#fff" stroke="#555" stroke-width="5"/>${[0,1,2].map(i=>`<path d="M${-150+i*5},${-4-i*6} L-20,${-20-i*6}" stroke="#90caf9" stroke-width="3"/>`).join('')}${write?`<path d="M20,-20 ${[...Array(8)].map((_,i)=>`L${20+i*15*Math.min(1,p*1.2)},${-24+(i%2?-8:6)}`).join(' ')}" stroke="#1a237e" stroke-width="4" fill="none"/><g transform="translate(${30+p*110},-40) rotate(30)"><rect x="-6" y="-70" width="12" height="70" fill="#1565c0"/><path d="M-6,0 L6,0 L0,14Z" fill="#1a1a1a"/></g>`:''}</g>`}
+function firstAid(x,y,s){return `<g transform="translate(${x},${y}) scale(${s})"><rect x="-90" y="-60" width="180" height="120" rx="16" fill="#fff" stroke="#c62828" stroke-width="8"/><rect x="-14" y="-40" width="28" height="80" fill="#e53935"/><rect x="-40" y="-14" width="80" height="28" fill="#e53935"/><rect x="-30" y="-80" width="60" height="24" rx="8" fill="none" stroke="#c62828" stroke-width="8"/></g>`}
+function cellBars(x0,x1,y0,y1,op=1){let s=`<g opacity="${op}"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="26" fill="#455a64" stroke="#1a1a1a" stroke-width="5"/><rect x="${x0}" y="${y1-26}" width="${x1-x0}" height="26" fill="#455a64" stroke="#1a1a1a" stroke-width="5"/>`;for(let x=x0+30;x<x1;x+=90)s+=`<rect x="${x-10}" y="${y0}" width="20" height="${y1-y0}" rx="8" fill="#78909c" stroke="#1a1a1a" stroke-width="4"/>`;return s+'</g>'}
+function fileStack(x,y,s,n,lt=0){let g='';for(let i=0;i<n;i++){const c=['#ffcc80','#ffe0b2','#bcaaa4','#ffd180'][i%4];g+=`<g transform="translate(${((i*37)%22)-11},${-i*26}) rotate(${((i*53)%7)-3})"><rect x="-130" y="-24" width="260" height="26" rx="4" fill="${c}" stroke="#6d4c41" stroke-width="4"/><rect x="-40" y="-20" width="80" height="6" fill="#8d6e63"/></g>`;}return `<g transform="translate(${x},${y}) scale(${s})">${g}</g>`}
+const smoke=(x,y,lt,sc=1)=>[0,1,2].map(i=>{const t=(lt*.8+i/3)%1;return `<circle cx="${x+Math.sin(t*6+i)*14*sc}" cy="${y-t*120*sc}" r="${(10+t*26)*sc}" fill="#cfd8dc" opacity="${(1-t)*.7}"/>`}).join('');
+const impact=(x,y,sc,c='#ffd43b')=>`<path d="M0,-30 L22,-80 L28,-26 L84,-40 L40,0 L86,46 L26,30 L18,86 L-6,34 L-60,70 L-34,14 L-90,-6 L-34,-24 L-50,-86Z" fill="${c}" stroke="#1a1a1a" stroke-width="6" transform="translate(${x},${y}) scale(${sc})"/>`;
+const grawlix=(x,y,sc,lt)=>`<g transform="translate(${x},${y}) scale(${sc})"><path d="M-170,-90 Q-180,-150 -100,-150 L100,-150 Q180,-150 170,-90 L170,-20 Q170,30 100,30 L-20,30 L-80,90 L-60,30 L-100,30 Q-170,30 -170,-20Z" fill="#fff" stroke="#1a1a1a" stroke-width="7"/><path d="M-120,-60 l20,-30 l20,30 l20,-30 l20,30" stroke="#e53935" stroke-width="9" fill="none" stroke-linejoin="round"/><path d="M20,-88 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0 M10,-76 L40,-46" stroke="#1a1a1a" stroke-width="8" fill="none" transform="rotate(${Math.sin(lt*20)*8} 20 -70)"/>${spark(110,-70,.9,'#ffd43b')}</g>`;
+const thought=(x,y,sc,inner)=>`<g transform="translate(${x},${y}) scale(${sc})"><circle cx="-180" cy="250" r="16" fill="#fff" stroke="#333" stroke-width="5"/><circle cx="-140" cy="200" r="26" fill="#fff" stroke="#333" stroke-width="5"/><path d="M-300,0 C-350,-150 -200,-270 -50,-230 C10,-330 250,-320 280,-200 C390,-180 400,0 300,60 C330,170 180,240 70,190 C0,260 -190,250 -220,170 C-350,190 -390,60 -300,0Z" fill="#fff" stroke="#333" stroke-width="8"/>${inner}</g>`;
+const speed=(x,y,n=3,lt=0,len=140)=>[...Array(n)].map((_,i)=>`<rect x="${x-((lt*900+i*130)%260)}" y="${y+i*50}" width="${len}" height="10" rx="5" fill="#fff" opacity=".75"/>`).join('');
 
 
 window.render=function(t){
