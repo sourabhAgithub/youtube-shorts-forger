@@ -14,7 +14,7 @@ Voice language: Malayalam
 - Narrator + one friend on an Activa (friend driving), coming back at 12:30 AM (confirmed).
 - Car driving badly overtook and nearly hit them; they chased and confronted it.
 - 6-foot, fat man smoking got out; three more followed (one in a mundu).
-- He grabbed narrator's shirt; cigarette fell into the shirt and burned him; friend hit the man.
+- He grabbed narrator's shirt; cigarette fell into the shirt and burned him; friend jumped in, swung once and it landed; the gunda kept hitting the narrator, whose swings all missed (confirmed).
 - Onlookers didn't step in; gang swore and left when more people gathered; locals: "you don't know who he is".
 - Police station: friend saw narrator's bleeding lip, has a blood problem, started crying; constable sent them to hospital.
 - Uncle (father's brother) is a Tahsildar: "come with your friend tomorrow, I'll set it up".
