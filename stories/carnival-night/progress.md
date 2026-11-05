@@ -16,8 +16,8 @@ Voice language: Malayalam
 - 6-foot, fat man smoking got out; three more followed (one in a mundu).
 - He grabbed narrator's shirt; cigarette fell into the shirt and burned him; friend jumped in, swung once and it landed; the gunda kept hitting the narrator, whose swings all missed (confirmed).
 - Onlookers didn't step in; gang swore and left when more people gathered; locals: "you don't know who he is".
-- Police station: friend saw narrator's bleeding lip, has a blood problem, started crying; constable sent them to hospital.
-- Uncle (father's brother) is a Tahsildar: "come with your friend tomorrow, I'll set it up".
+- Police station: friend saw narrator's bleeding lip, has a blood problem, started crying; constable gave first aid there, took names and addresses, told them to come back next morning (confirmed). Then home, told parents.
+- Moothachan (father's elder brother) is a Tahsildar (confirmed): "come with your friend tomorrow, I'll set it up".
 - Next day the SI thought the uncle was the father; the man was in the cell, identified.
 - SI: he has 25 cases, main gunda of the area; one more = 26; dad says your choice. They didn't file.
 - Gunda complained "they beat me too"; SI laughed: "these kids?"
