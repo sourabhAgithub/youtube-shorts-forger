@@ -10,8 +10,8 @@ Started: 2026-11-05
 Voice language: Malayalam
 
 ## Facts from the user's story (to confirm)
-- Around plus two / first year of college; 10-day carnival, went every day.
-- Narrator + one friend on an Activa (friend driving), coming back after 1 AM.
+- During plus two (confirmed); 10-day carnival, went every day.
+- Narrator + one friend on an Activa (friend driving), coming back at 12:30 AM (confirmed).
 - Car driving badly overtook and nearly hit them; they chased and confronted it.
 - 6-foot, fat man smoking got out; three more followed (one in a mundu).
 - He grabbed narrator's shirt; cigarette fell into the shirt and burned him; friend hit the man.
