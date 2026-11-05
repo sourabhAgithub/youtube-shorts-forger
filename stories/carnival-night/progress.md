@@ -1,7 +1,7 @@
 # കാർണിവൽ രാത്രി... ഒരു ചേസ്! (carnival-night)
 Started: 2026-11-05
 
-☐ 1. Story → Malayalam Part 1 & 2   (drafts: part1.ml.txt ≈57 s, part2.ml.txt ≈56 s, awaiting approval)
+☑ 1. Story → Malayalam Part 1 & 2   (approved 2026-11-05: part1.ml.txt ≈64 s, part2.ml.txt ≈65 s)
 ☐ 2. Voice scripts + Style
 ☐ 3. Videos (YouTube Shorts)
 ☐ 4. Review → final videos
@@ -9,7 +9,7 @@ Started: 2026-11-05
 
 Voice language: Malayalam
 
-## Facts from the user's story (to confirm)
+## Facts confirmed by the user (scripts approved 2026-11-05)
 - During plus two (confirmed); 10-day carnival, were there 6 of the 10 days (confirmed).
 - Narrator + one friend on an Activa (friend driving), coming back at 12:30 AM (confirmed).
 - Car driving badly overtook and nearly hit them; they chased and confronted it.
@@ -23,3 +23,5 @@ Voice language: Malayalam
 - Gunda complained "they beat me too"; SI laughed: "these kids?"
 
 ## Notes
+- Do not push without asking the user first (user request, 2026-11-05).
+- Step 2 files: part1.aistudio.txt, part1.style.txt, part2.aistudio.txt, part2.style.txt
