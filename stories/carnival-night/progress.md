@@ -10,7 +10,7 @@ Started: 2026-11-05
 Voice language: Malayalam
 
 ## Facts from the user's story (to confirm)
-- During plus two (confirmed); 10-day carnival, went every day.
+- During plus two (confirmed); 10-day carnival, were there 6 of the 10 days (confirmed).
 - Narrator + one friend on an Activa (friend driving), coming back at 12:30 AM (confirmed).
 - Car driving badly overtook and nearly hit them; they chased and confronted it.
 - 6-foot, fat man smoking got out; three more followed (one in a mundu).
