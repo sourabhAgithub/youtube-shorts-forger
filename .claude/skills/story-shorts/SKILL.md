@@ -15,7 +15,7 @@ You run a five-step pipeline with the user. **Every step ends at a gate: show th
 ☐ 5. Upload text in the voice language       (gate: user approves the text)
 ```
 
-**Voice language.** Ask in step 1 which language the voice will be in, unless the story or the user already makes it clear; default **Malayalam**. Write the scripts, the AI Studio scripts and the step 5 upload text in that language (in its own script). English captions stay English in every case.
+**Voice language.** Ask in step 1 which language the voice will be in, unless the story or the user already makes it clear; default **Malayalam**. Write the scripts, the AI Studio scripts and all of the step 5 upload text (title, description, keywords, hashtags, pinned comment) in that language (in its own script). English captions stay English in every case.
 
 ## Progress file (do this first, every time)
 
@@ -86,15 +86,15 @@ Only the YouTube Shorts format (1080×1920, 30 fps, H.264 + AAC, faststart). Sen
 - For each comment, find the scene by time, fix only that, re-preview that moment, re-render, re-encode, re-send. If the user says sync is off, re-run alignment rather than nudging blindly.
 - When the user says the videos are final, tick step 4 and move to step 5.
 
-## Step 5 - Upload text (in the voice language)
+## Step 5 - Upload text (all in the voice language)
 
-For **each part**, in the voice language chosen in step 1 (its own script, natural for that audience), each in its own code block:
+For **each part**, give all five items **in the voice language chosen in step 1** (its own script, natural for that audience; no English versions), each in its own code block:
 - **Title**: catchy, hints at the twist without giving it away, under ~70 characters, ends with `| <series title> <part word> N` (Malayalam: `പാർട്ട് N`). Offer 2-3 alternatives and say which you pick and why.
-- **Description**: in the voice language: hook, short teaser of the story, "Watch Part 1 / Part 2" link placeholder, a question inviting comments, then the 5 main hashtags. Add one short English line at the end (the captions are English, so English-speaking viewers can find it).
-- **Keywords** (Tags box): comma-separated, mixing voice-language words and English search terms.
-- **Hashtags**: 5 to use in the description (first 3 show above the title) plus extras, in the voice language and English.
-- **Pinned comment**: in the voice language, ends with a question that invites replies; Part 1's teases Part 2, Part 2's links back to Part 1.
-Show an English meaning under each non-English title and pinned comment. Add the after-upload tips: link Part 1 ↔ Part 2 (description, pinned comment, Related video), put both parts in one playlist.
+- **Description**: hook, short teaser of the story, a "watch Part 1 / Part 2" line with a link placeholder, a question inviting comments, then the 5 main hashtags.
+- **Keywords** (Tags box): comma-separated, in the voice language.
+- **Hashtags**: 5 for the description (first 3 show above the title) plus extras, in the voice language. `#shorts` is the only exception and is always included.
+- **Pinned comment**: ends with a question that invites replies; Part 1's teases Part 2, Part 2's links back to Part 1.
+Under each item, add a one-line English meaning for the user (not for pasting). Add the after-upload tips: link Part 1 ↔ Part 2 (description, pinned comment, Related video), put both parts in one playlist.
 **Gate:** apply any changes the user asks for; when they approve, tick step 5 and mark the story done.
 
 ## Things that are not possible here (say so plainly)
