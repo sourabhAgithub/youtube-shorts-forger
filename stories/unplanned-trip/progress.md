@@ -8,6 +8,7 @@ Started: 2026-11-05
 ☑ 5. Upload text (title, description, keywords, hashtags, pinned comment)
 
 Voice language: Malayalam
+Parts: 2
 
 ## Facts confirmed by the user
 - First year of college; five friends; the narrator drove his Nissan Terrano (SUV).
